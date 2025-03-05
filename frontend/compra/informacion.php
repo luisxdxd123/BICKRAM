@@ -21,17 +21,13 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
         <link rel="stylesheet" href="../../backend/css/bootstrap.min.css">
         <!----css3---->
         <link rel="stylesheet" href="../../backend/css/custom.css">
-        
-
-
-        <!-- SLIDER REVOLUTION 4.x CSS SETTINGS -->
+        <link rel="stylesheet" href="../../backend/css/loader.css">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
         <!--google material icon-->
-        <link href="https://fonts.googleapis.com/css2?family=Material+Icons"
-            rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
         <link rel="icon" type="image/jpg" href="../../backend/img/yoga2.jpg" />
     </head>
 
@@ -40,7 +36,6 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
         <div class="wrapper">
 
             <div class="body-overlay"></div>
-            <!-- Sidebar  -->
             <?php
             require_once '../templates/header.php';
             ?>
@@ -48,17 +43,15 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
 
             <!-- Page Content  -->
             <div id="content">
-                <div class='pre-loader'>
-                </div>
+                <div class='pre-loader'></div>
                 <div class="top-navbar">
                     <nav class="navbar navbar-expand-lg">
                         <div class="container-fluid">
-
                             <button type="button" id="sidebarCollapse" class="d-xl-block d-lg-block d-md-mone d-none">
                                 <span class="material-icons">arrow_back_ios</span>
                             </button>
 
-                            <a class="navbar-brand" href="#"> Planes </a>
+                            <a class="navbar-brand" href="#"> Compras </a>
 
                             <button class="d-inline-block d-lg-none ml-auto more-button" type="button" data-toggle="collapse"
                                 data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,9 +67,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
                                     </li>
                                     <li class="dropdown nav-item active">
                                         <a href="#" class="nav-link" data-toggle="dropdown">
-
                                             <img src="../../backend/img/reere.png">
-
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li>
@@ -85,41 +76,38 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
                                             <li>
                                                 <a href="../cuenta/salir.php">Salir</a>
                                             </li>
-
                                         </ul>
                                     </li>
-
                                 </ul>
                             </div>
                         </div>
                     </nav>
                 </div>
 
-                <div class="main-content" style="min-height: 100vh; width: 100%;">
-                    <div class="row ">
+                <div class="main-content style="min-height: 100vh; width: 100%;"">
+                    <div class="row">
                         <div class="col-lg-12 col-md-12">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="../administrador/escritorio.php">Panel administrativo</a></li>
-                                    <li class="breadcrumb-item"><a href="../plan/mostrar.php">Planes </a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Informacion</li>
+                                    <li class="breadcrumb-item"><a href="../compra/mostrar.php">Compras</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Información</li>
                                 </ol>
                             </nav>
                             <div class="card" style="min-height: 485px">
                                 <div class="card-header card-header-text">
-                                    <h4 class="card-title">Planes recientes</h4>
-                                    <p class="category">Informacion del plan reciente añadidos el dia de hoy</p>
+                                    <h4 class="card-title">Información de la compra</h4>
+                                    <p class="category">Detalle de la compra seleccionada</p>
                                 </div>
 
                                 <div class="card-content table-responsive">
-
                                     <?php
                                     require '../../backend/bd/ctconex.php';
                                     $id = $_GET['id'];
-                                    $sentencia = $connect->prepare("SELECT * FROM plan WHERE idplan= '$id';");
+                                    $sentencia = $connect->prepare("SELECT * FROM compra WHERE idcomp= '$id';");
                                     $sentencia->execute();
 
-                                    $data =  array();
+                                    $data = array();
                                     if ($sentencia) {
                                         while ($r = $sentencia->fetchObject()) {
                                             $data[] = $r;
@@ -130,52 +118,62 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
                                         <?php foreach ($data as $f): ?>
                                             <form enctype="multipart/form-data" method="POST" autocomplete="off">
                                                 <br>
+                                                <!-- Puedes mostrar el ID de compra si lo requieres -->
+
                                                 <div class="row">
-                                                    <div class="col-md-12 col-lg-12">
-                                                        <div class="form-group">
-                                                            <center><img src="../../backend/img/subidas/<?php echo  $f->foto; ?>" height="150"></center>
 
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <br>
-                                                <div class="row">
+                                                    <!-- Método de Pago -->
                                                     <div class="col-md-4 col-lg-4">
                                                         <div class="form-group">
-                                                            <label for="email">Nombre del plan<span class="text-danger">*</span></label>
-                                                            <input type="text" readonly value="<?php echo  $f->nompla; ?>" class="form-control" name="txtnampla" placeholder="Nombre del plan">
-                                                            <input type="hidden" value="<?php echo  $f->idplan; ?>" name="txtidc">
+                                                            <label>Método de Pago <span class="text-danger">*</span></label>
+                                                            <select class="form-control" readonly name="method">
+                                                                <option value="<?php echo $f->method; ?>"><?php echo $f->method; ?></option>
+                                                            </select>
                                                         </div>
                                                     </div>
-
+                                                    <!-- Total de Productos -->
                                                     <div class="col-md-4 col-lg-4">
                                                         <div class="form-group">
-                                                            <label for="email">Precio del plan<span class="text-danger">*</span></label>
-                                                            <input type="text" value="<?php echo  $f->prec; ?>" onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" class="form-control" name="txtprepl" readonly placeholder="Precio del plan">
-
+                                                            <label>Total de Productos <span class="text-danger">*</span></label>
+                                                            <input type="number" readonly value="<?php echo $f->total_products; ?>" class="form-control" name="total_products" placeholder="Cantidad de productos">
                                                         </div>
                                                     </div>
 
-
+                                                    <!-- Precio Total -->
                                                     <div class="col-md-4 col-lg-4">
                                                         <div class="form-group">
-                                                            <label for="email">Estado del plan<span class="text-danger">*</span></label>
-                                                            <select class="form-control" readonly name="txtesta">
-                                                                <option value="<?php echo  $f->estp; ?>"><?php echo  $f->estp; ?></option>
-
+                                                            <label>Precio Total <span class="text-danger">*</span></label>
+                                                            <input type="text" readonly value="<?php echo $f->total_price; ?>" onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" class="form-control" name="total_price" placeholder="Precio total">
+                                                        </div>
+                                                    </div>
+                                                    <!-- Fecha de Compra -->
+                                                    <div class="col-md-4 col-lg-4">
+                                                        <div class="form-group">
+                                                            <label>Fecha de Compra <span class="text-danger">*</span></label>
+                                                            <input type="date" readonly value="<?php echo $f->placed_on; ?>" class="form-control" name="placed_on" required>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Estado de Pago -->
+                                                    <div class="col-md-4 col-lg-4">
+                                                        <div class="form-group">
+                                                            <label>Estado de Pago <span class="text-danger">*</span></label>
+                                                            <select class="form-control" readonly name="payment_status">
+                                                                <option value="<?php echo $f->payment_status; ?>"><?php echo $f->payment_status; ?></option>
                                                             </select>
                                                         </div>
                                                     </div>
 
+                                                    <div class="col-md-4 col-lg-4">
+                                                        <div class="form-group">
+                                                            <label>Tipo de Compra</label>
+                                                            <input type="text" readonly value="<?php echo $f->tipc; ?>" class="form-control" name="tipc" placeholder="Tipo de compra">
+                                                        </div>
+                                                    </div>
                                                 </div>
-
-
-
                                                 <hr>
                                                 <div class="form-group">
                                                     <div class="col-sm-12">
-
-                                                        <a class="btn btn-danger text-white" href="../plan/mostrar.php">Cancelar</a>
+                                                        <a class="btn btn-danger text-white" href="../compra/mostrar.php">Cancelar</a>
                                                     </div>
                                                 </div>
                                             </form>
@@ -184,20 +182,14 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
                                         <div class="alert alert-warning" role="alert">
                                             No se encontró ningún dato!
                                         </div>
-
                                     <?php endif; ?>
                                 </div>
-
                             </div>
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
         </div>
-
 
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -207,7 +199,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
         <script src="../../backend/js/jquery-3.3.1.min.js"></script>
         <script src="../../backend/js/sweetalert.js"></script>
         <?php
-        include_once '../../backend/php/st_updpln.php'
+        include_once '../../backend/php/st_updcompr.php'
         ?>
 
         <script type="text/javascript">
@@ -216,23 +208,16 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
                     $('#sidebar').toggleClass('active');
                     $('#content').toggleClass('active');
                 });
-
                 $('.more-button,.body-overlay').on('click', function() {
                     $('#sidebar,.body-overlay').toggleClass('show-nav');
                 });
-
             });
         </script>
         <script src="../../backend/js/loader.js"></script>
 
-
     </body>
 
     </html>
-
-
-
-
 
 <?php } else {
     header('Location: ../erro404.php');

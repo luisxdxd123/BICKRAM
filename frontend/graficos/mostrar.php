@@ -57,7 +57,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
             </nav>
         </div>
 
-        <div class="main-content">
+        <div class="main-content" style="min-height: 100vh; width: 100%;">
             <div class="row">
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="card card-stats">

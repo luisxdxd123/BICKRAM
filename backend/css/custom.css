@@ -3,7 +3,11 @@
 /* ---------------------------------------------------
    CONFIGURACIÓN GLOBAL
 ----------------------------------------------------- */
-body, html {
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
   line-height: 1.8;
   font-family: 'Poppins', sans-serif;
   color: #555e58;
@@ -11,12 +15,11 @@ body, html {
   text-rendering: optimizeLegibility !important;
   -webkit-font-smoothing: antialiased !important;
   font-weight: 400;
-  margin: 0;
-  padding: 0;
   background-color: #f9f9fb; /* Fondo muy claro */
 }
 
-/* ---------------------------------------------------
+
+/* --------------------------------------------------
    TIPOGRAFÍA
 ----------------------------------------------------- */
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4 {

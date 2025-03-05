@@ -1,66 +1,4 @@
-<?php
-ob_start();
-session_start();
-
-// Verificar sesión y rol de administrador
-if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
-    header('location: ../erro404.php');
-    exit;
-}
-if (!isset($_SESSION['id'])) {
-    header('Location: ../erro404.php');
-    exit;
-}
-
-require_once '../../backend/bd/ctconex.php';
-
-// Variable para mostrar el SweetAlert (vacía por defecto)
-$mostrarSweetAlert = false;
-
-// Obtener categorías
-$sql = "SELECT idcate, nomca FROM categoria";
-$stmt_cat = $connect->prepare($sql);
-$stmt_cat->execute();
-$categorias = $stmt_cat->fetchAll(PDO::FETCH_OBJ);
-
-// Procesar formulario
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['staddcust'])) {
-    $codba  = trim($_POST['txtnum']);
-    $nomprd = trim($_POST['txtnaame']);
-    $idcate = trim($_POST['txtape']);
-    $precio = trim($_POST['txtcel']);
-    $stock  = trim($_POST['txtema']);
-    $venci  = trim($_POST['txtnaci']);
-    $esta   = trim($_POST['txtesta']);
-
-    // Validar campos
-    if ($codba && $nomprd && $idcate && $precio && $venci && $esta) {
-        $foto = 'default.png';
-
-        $sql_insert = "INSERT INTO producto (codba, nomprd, idcate, precio, stock, foto, venci, esta)
-                       VALUES (:codba, :nomprd, :idcate, :precio, :stock, :foto, :venci, :esta)";
-        $stmt = $connect->prepare($sql_insert);
-        $stmt->bindParam(':codba', $codba);
-        $stmt->bindParam(':nomprd', $nomprd);
-        $stmt->bindParam(':idcate', $idcate);
-        $stmt->bindParam(':precio', $precio);
-        $stmt->bindParam(':stock', $stock);
-        $stmt->bindParam(':foto', $foto);
-        $stmt->bindParam(':venci', $venci);
-        $stmt->bindParam(':esta', $esta);
-
-        if ($stmt->execute()) {
-            // Activamos el indicador para mostrar el SweetAlert de éxito
-            $mostrarSweetAlert = true;
-        } else {
-            echo "<script>alert('Error al insertar el producto');</script>";
-        }
-    } else {
-        echo "<script>alert('Por favor complete todos los campos obligatorios');</script>";
-    }
-}
-?>
-
+<?php include_once '../../backend/php/st_add_producto.php'; ?>
 <?php include_once "../templates/header.php"; ?>
 
 <div id="content">
@@ -233,18 +171,15 @@ $(document).ready(function() {
 
 <script src="../../backend/js/loader.js"></script>
 
-<?php
-// Si se insertó correctamente, mostramos el SweetAlert
-if ($mostrarSweetAlert) {
-    // SweetAlert de éxito + redirección
-    echo '<script type="text/javascript">
-            swal("¡Registrado!", "Se agregó correctamente", "success")
-            .then(function() {
-                window.location = "../productos/mostrar_p.php";
-            });
-          </script>';
-}
-?>
-</body>
-</html>
-<?php ob_end_flush(); ?>
+<?php 
+// Mostrar SweetAlert después de cargar la librería
+if(isset($mostrarSweetAlert) && $mostrarSweetAlert): ?>
+    <script type="text/javascript">
+        swal("¡Registrado!", "Se agregó correctamente", "success")
+        .then(function() {
+            window.location = "../productos/mostrar.php";
+        });
+    </script>
+<?php endif; ?>
+
+<?php include_once "../templates/footer.php"; ?>

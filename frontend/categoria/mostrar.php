@@ -3,30 +3,37 @@ ob_start();
 session_start();
 
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
-    header('location: ../erro404.php');
+    header('Location: ../erro404.php');
+    exit;
 }
 ?>
+
 <?php if (isset($_SESSION['id'])) { ?>
 
-    <?php include_once "../templates/header.php" ?>
+    <?php include_once "../templates/header.php"; ?>
 
-    <!-- Page Content  -->
+    <!-- Page Content -->
     <div id="content">
         <div class="top-navbar">
             <nav class="navbar navbar-expand-lg">
                 <div class="container-fluid">
 
-                    <button type="button" id="sidebarCollapse" class="d-xl-block d-lg-block d-md-mone d-none">
+                    <button type="button" id="sidebarCollapse" class="d-xl-block d-lg-block d-md-none d-none">
                         <span class="material-icons">arrow_back_ios</span>
                     </button>
 
-                    <a class="navbar-brand" href="#"> Usuarios </a>
+                    <!-- Título de la sección -->
+                    <a class="navbar-brand" href="#"> Categorías </a>
 
-                    <button class="d-inline-block d-lg-none ml-auto more-button" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="d-inline-block d-lg-none ml-auto more-button" type="button" 
+                            data-toggle="collapse" data-target="#navbarSupportedContent" 
+                            aria-controls="navbarSupportedContent" aria-expanded="false" 
+                            aria-label="Toggle navigation">
                         <span class="material-icons">more_vert</span>
                     </button>
 
-                    <div class="collapse navbar-collapse d-lg-block d-xl-block d-sm-none d-md-none d-none" id="navbarSupportedContent">
+                    <div class="collapse navbar-collapse d-lg-block d-xl-block d-sm-none d-md-none d-none" 
+                         id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item">
                                 <a class="nav-link" href="../cuenta/configuracion.php">
@@ -35,118 +42,128 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
                             </li>
                             <li class="dropdown nav-item active">
                                 <a href="#" class="nav-link" data-toggle="dropdown">
-
                                     <img src="../../backend/img/reere.png">
-
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="../cuenta/perfil.php">Mi perfil</a>
-                                    </li>
-                                    <li>
-                                        <a href="../cuenta/salir.php">Salir</a>
-                                    </li>
-
+                                    <li><a href="../cuenta/perfil.php">Mi perfil</a></li>
+                                    <li><a href="../cuenta/salir.php">Salir</a></li>
                                 </ul>
                             </li>
-
                         </ul>
                     </div>
+
                 </div>
             </nav>
         </div>
 
-
         <div class="main-content" style="min-height: 100vh; width: 100%;">
-
             <div class="row ">
                 <div class="col-lg-12 col-md-12">
                     <div class="card" style="min-height: 485px">
                         <div class="card-header card-header-text">
-                            <h4 class="card-title">Usuarios recientes</h4>
-                            <p class="category">Nuevas usuarios reciente añadidos el dia de hoy</p>
+                            <h4 class="card-title">Categorías recientes</h4>
+                            <p class="category">Nuevas categorías añadidas recientemente</p>
                         </div>
+                        <br>
+                        
+                        <a href="../categoria/nuevo.php" class="btn btn-danger text-white mx-3">
+                            Nueva categoría
+                        </a>
 
+                        <br>
                         <div class="card-content table-responsive">
                             <?php
                             require '../../backend/bd/ctconex.php';
-                            $sentencia = $connect->prepare("SELECT * FROM usuarios order BY id DESC;");
+                            $sentencia = $connect->prepare("SELECT * FROM categoria ORDER BY nomca DESC;");
                             $sentencia->execute();
 
-                            $data =  array();
+                            $data = array();
                             if ($sentencia) {
                                 while ($r = $sentencia->fetchObject()) {
                                     $data[] = $r;
                                 }
                             }
                             ?>
+
                             <?php if (count($data) > 0) : ?>
                                 <table class="table table-hover" id="example">
                                     <thead class="text-primary">
                                         <tr>
                                             <th>Nombre</th>
-                                            <th>Usuario</th>
-                                            <th>Correo</th>
-                                            <th>Rol</th>
                                             <th>Estado</th>
+                                            <th>Fecha registro</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php foreach ($data as $g) : ?>
                                             <tr>
-
-                                                <td><?php echo  $g->nombre; ?></td>
-                                                <td><?php echo  $g->usuario; ?></td>
-                                                <td><?php echo  $g->correo; ?></td>
+                                                <td><?php echo $g->nomca; ?></td>
                                                 <td>
-                                                    <?php if ($g->rol == '1') { ?>
-
-                                                        <span class="badge badge-success">Administrador</span>
-                                                    <?php  } else { ?>
-                                                        <span class="badge badge-danger">null</span>
-                                                    <?php  } ?>
-
-                                                </td>
-                                                <td><?php if ($g->estado == '1') { ?>
-
+                                                    <?php if ($g->estado == 'Activo') { ?>
                                                         <span class="badge badge-success">Activo</span>
-                                                    <?php  } else { ?>
+                                                    <?php } else { ?>
                                                         <span class="badge badge-danger">Inactivo</span>
-                                                    <?php  } ?>
+                                                    <?php } ?>
                                                 </td>
+                                                <td><?php echo $g->fere; ?></td>
                                                 <td>
-                                                    <?php if ($g->estado == '1') { ?>
-                                                        <a class="btn btn-warning text-white" href="../usuario/actualizar.php?id=<?php echo  $g->id; ?>"><i class='material-icons' data-toggle='tooltip' title='crear'>edit</i></a>
-
-                                                    <?php  } else { ?>
-                                                        <a class="btn btn-warning text-white" href="../usuario/actualizar.php?id=<?php echo  $g->id; ?>"><i class='material-icons' data-toggle='tooltip' title='crear'>edit</i></a>
-                                                    <?php  } ?>
+                                                    <?php if ($g->estado == 'Activo') { ?>
+                                                        <a class="btn btn-warning text-white" 
+                                                           href="../categoria/actualizar.php?id=<?php echo $g->idcate; ?>">
+                                                            <i class="material-icons" data-toggle="tooltip" title="Editar">edit</i>
+                                                        </a>
+                                                        <a class="btn btn-danger text-white" 
+                                                           href="../categoria/eliminar.php?id=<?php echo $g->idcate; ?>">
+                                                            <i class="material-icons" data-toggle="tooltip" title="Eliminar">cancel</i>
+                                                        </a>
+                                                    <?php } else { ?>
+                                                        <a class="btn btn-warning text-white" 
+                                                           href="../categoria/actualizar.php?id=<?php echo $g->idcate; ?>">
+                                                            <i class="material-icons" data-toggle="tooltip" title="Editar">edit</i>
+                                                        </a>
+                                                    <?php } ?>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             <?php else : ?>
-                                <!-- Warning Alert -->
                                 <div class="alert alert-warning" role="alert">
-                                    No se encontró ningún dato!
+                                    ¡No se encontró ninguna categoría!
                                 </div>
-
                             <?php endif; ?>
-                        </div>
+                        </div><!-- ./card-content -->
                     </div>
                 </div>
-
             </div>
-
         </div>
-
     </div>
     </div>
-
 
     <!-- Optional JavaScript -->
+    <!-- jQuery, Popper.js, Bootstrap JS -->
+    <script src="../../backend/js/jquery-3.3.1.slim.min.js"></script>
+    <script src="../../backend/js/popper.min.js"></script>
+    <script src="../../backend/js/bootstrap.min.js"></script>
+    <script src="../../backend/js/jquery-3.3.1.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#sidebarCollapse').on('click', function() {
+                $('#sidebar').toggleClass('active');
+                $('#content').toggleClass('active');
+            });
+            $('.more-button, .body-overlay').on('click', function() {
+                $('#sidebar, .body-overlay').toggleClass('show-nav');
+            });
+        });
+    </script>
+     
+</body>
+</html>
+
+<!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="../../backend/js/jquery-3.3.1.slim.min.js"></script>
     <script src="../../backend/js/popper.min.js"></script>
@@ -250,16 +267,12 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
         });
     </script>
 
-
     </body>
 
     </html>
 
-
-
-
-
 <?php } else {
     header('Location: ../erro404.php');
 } ?>
+
 <?php ob_end_flush(); ?>

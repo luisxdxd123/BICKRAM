@@ -9,18 +9,16 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
 <?php if (isset($_SESSION['id'])) { ?>
 
     <?php include_once "../templates/header.php" ?>
-
     <!-- Page Content  -->
     <div id="content">
         <div class="top-navbar">
             <nav class="navbar navbar-expand-lg">
                 <div class="container-fluid">
-
                     <button type="button" id="sidebarCollapse" class="d-xl-block d-lg-block d-md-mone d-none">
                         <span class="material-icons">arrow_back_ios</span>
                     </button>
 
-                    <a class="navbar-brand" href="#"> Clientes </a>
+                    <a class="navbar-brand" href="#"> Compras </a>
 
                     <button class="d-inline-block d-lg-none ml-auto more-button" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="material-icons">more_vert</span>
@@ -35,117 +33,100 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
                             </li>
                             <li class="dropdown nav-item active">
                                 <a href="#" class="nav-link" data-toggle="dropdown">
-
                                     <img src="../../backend/img/reere.png">
-
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="../cuenta/perfil.php">Mi perfil</a>
-                                    </li>
-                                    <li>
-                                        <a href="../cuenta/salir.php">Salir</a>
-                                    </li>
-
+                                    <li><a href="../cuenta/perfil.php">Mi perfil</a></li>
+                                    <li><a href="../cuenta/salir.php">Salir</a></li>
                                 </ul>
                             </li>
-
                         </ul>
                     </div>
                 </div>
             </nav>
         </div>
 
-
         <div class="main-content" style="min-height: 100vh; width: 100%;">
-    <div class="row">
-        <div class="col-lg-12 col-md-12">
-            <div class="card" style="min-height: 485px">
-                <div class="card-header card-header-text">
-                    <h4 class="card-title">Clientes recientes</h4>
-                    <p class="category">Nuevas clientes reciente añadidos el día de hoy</p>
-                </div>
-                <br>
-                <a href="../clientes/nuevo.php" class="btn btn-danger text-white mx-3">Nuevo cliente</a>
-                <br>
-                <div class="card-content table-responsive">
-                    <?php
-                    require '../../backend/bd/ctconex.php';
-                    $sentencia = $connect->prepare("SELECT * FROM clientes order BY nomcli DESC;");
-                    $sentencia->execute();
-
-                    $data = array();
-                    if ($sentencia) {
-                        while ($r = $sentencia->fetchObject()) {
-                            $data[] = $r;
-                        }
-                    }
-                    ?>
-                    <?php if (count($data) > 0) : ?>
-                        <table class="table table-hover" id="example">
-                            <thead class="text-primary">
-                                <tr>
-                                    <th>Nombres</th>
-                                    <th>Apellidos</th>
-                                    <th>Celular</th>
-                                    <th>Correo</th>
-                                    <th>Estado</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($data as $g) : ?>
-                                    <tr>
-                                        <td><?php echo $g->nomcli; ?></td>
-                                        <td><?php echo $g->apecli; ?></td>
-                                        <td><?php echo $g->celu; ?></td>
-                                        <td><?php echo $g->correo; ?></td>
-                                        <td>
-                                            <?php if ($g->estad == 'Activo') { ?>
-                                                <span class="badge badge-success">Activo</span>
-                                            <?php } else { ?>
-                                                <span class="badge badge-danger">Inactivo</span>
-                                            <?php } ?>
-                                        </td>
-                                        <td>
-                                            <?php if ($g->estad == 'Activo') { ?>
-                                                <a class="btn btn-warning text-white" href="../clientes/actualizar.php?id=<?php echo $g->idclie; ?>">
-                                                    <i class='material-icons' data-toggle='tooltip' title='crear'>edit</i>
-                                                </a>
-                                                <a class="btn btn-danger text-white" href="../clientes/eliminar.php?id=<?php echo $g->idclie; ?>">
-                                                    <i class='material-icons' data-toggle='tooltip' title='crear'>cancel</i>
-                                                </a>
-                                                <a class="btn btn-primary text-white" href="../clientes/informacion.php?id=<?php echo $g->idclie; ?>">
-                                                    <i class='material-icons' data-toggle='tooltip' title='crear'>info</i>
-                                                </a>
-                                            <?php } else { ?>
-                                                <a class="btn btn-warning text-white" href="../clientes/actualizar.php?id=<?php echo $g->idclie; ?>">
-                                                    <i class='material-icons' data-toggle='tooltip' title='crear'>edit</i>
-                                                </a>
-                                            <?php } ?>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    <?php else : ?>
-                        <!-- Warning Alert -->
-                        <div class="alert alert-warning" role="alert">
-                            No se encontró ningún dato!
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="card" style="min-height: 485px">
+                        <div class="card-header card-header-text">
+                            <h4 class="card-title">Compras recientes</h4>
+                            <p class="category">Últimas compras registradas</p>
                         </div>
-                    <?php endif; ?>
+                        <br>
+                        <a href="../compra/nuevo.php" class="btn btn-danger text-white mx-3">Nueva compra</a>
+
+                        <br>
+                        <div class="card-content table-responsive">
+                            <?php
+                            require '../../backend/bd/ctconex.php';
+                            $sentencia = $connect->prepare("SELECT * FROM compra ORDER BY idcomp DESC;");
+                            $sentencia->execute();
+
+                            $data = [];
+                            if ($sentencia) {
+                                while ($r = $sentencia->fetchObject()) {
+                                    $data[] = $r;
+                                }
+                            }
+                            ?>
+
+                            <?php if (count($data) > 0) : ?>
+                                <table class="table table-hover" id="example">
+                                    <thead class="text-primary">
+                                        <tr>
+                                            <th>Método de pago</th>
+                                            <th>Total de productos</th>
+                                            <th>Precio total</th>
+                                            <th>Descripcion</th>
+                                            <th>Fecha</th>
+                                            <th>Estado de pago</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($data as $compra) : ?>
+                                            <tr>
+                                                <td><?php echo $compra->method; ?></td>
+                                                <td><?php echo $compra->total_products; ?></td>
+                                                <td>$<?php echo number_format($compra->total_price, 2); ?></td>
+                                                <td><?php echo $compra->tipc; ?></td>
+                                                <td><?php echo $compra->placed_on; ?></td>
+                                                <td>
+                                                    <?php 
+                                                    if ($compra->payment_status == 'Completado') {
+                                                        echo '<span class="badge badge-success">Completado</span>';
+                                                    } elseif ($compra->payment_status == 'Cancelado') {
+                                                        echo '<span class="badge badge-danger">Cancelado</span>';
+                                                    } else {
+                                                        echo '<span class="badge badge-warning">Pendiente</span>';
+                                                    }
+                                                    ?>
+                                                </td>
+
+                                                <td>
+                                                    <a class="btn btn-primary text-white" href="../compra/informacion.php?id=<?php echo $compra->idcomp; ?>"><i class='material-icons' title='Visualizar'>visibility</i></a>
+                                                    <a class="btn btn-warning text-white" href="../compra/actualizar.php?id=<?php echo $compra->idcomp; ?>"><i class='material-icons' title='Editar'>edit</i></a>
+                                                    <a class="btn btn-danger text-white" href="../compra/eliminar.php?id=<?php echo $compra->idcomp; ?>"><i class='material-icons' title='Eliminar'>delete</i></a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            <?php else : ?>
+                                <div class="alert alert-warning" role="alert">
+                                    No hay compras registradas.
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-
-    </div>
-    
-
-
-    <!-- Optional JavaScript -->
+<!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="../../backend/js/jquery-3.3.1.slim.min.js"></script>
     <script src="../../backend/js/popper.min.js"></script>
@@ -253,11 +234,8 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
 
     </html>
 
-
-
-
-
 <?php } else {
     header('Location: ../erro404.php');
 } ?>
+
 <?php ob_end_flush(); ?>

@@ -11,32 +11,32 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
     <?php include_once "../templates/header.php" ?>
 
     <!-- Page Content  -->
-            <div id="content">
-                <div class="top-navbar">
-                    <nav class="navbar navbar-expand-lg">
-                        <div class="container-fluid">
+    <div id="content">
+        <div class="top-navbar">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container-fluid">
 
-                            <button type="button" id="sidebarCollapse" class="d-xl-block d-lg-block d-md-mone d-none">
-                                <span class="material-icons">arrow_back_ios</span>
-                            </button>
+                    <button type="button" id="sidebarCollapse" class="d-xl-block d-lg-block d-md-mone d-none">
+                        <span class="material-icons">arrow_back_ios</span>
+                    </button>
 
-                            <a class="navbar-brand" href="escritorio.php"> Panel administrativo </a>
+                    <a class="navbar-brand" href="escritorio.php"> Panel administrativo </a>
 
-                            <button class="d-inline-block d-lg-none ml-auto more-button" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="material-icons">more_vert</span>
-                            </button>
+                    <button class="d-inline-block d-lg-none ml-auto more-button" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="material-icons">more_vert</span>
+                    </button>
 
-                            <div class="collapse navbar-collapse d-lg-block d-xl-block d-sm-none d-md-none d-none" id="navbarSupportedContent">
-                                <ul class="nav navbar-nav ml-auto">
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="../cuenta/configuracion.php">
-                                            <span class="material-icons">settings</span>
-                                        </a>
-                                    </li>
-                                    <li class="dropdown nav-item active">
-                                        <a href="#" class="nav-link" data-toggle="dropdown">
+                    <div class="collapse navbar-collapse d-lg-block d-xl-block d-sm-none d-md-none d-none" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="../cuenta/configuracion.php">
+                                    <span class="material-icons">settings</span>
+                                </a>
+                            </li>
+                            <li class="dropdown nav-item active">
+                                <a href="#" class="nav-link" data-toggle="dropdown">
 
-                                            <img src="../../backend/img/reere.png">
+                                    <img src="../../backend/img/reere.png">
 
                                 </a>
                                 <ul class="dropdown-menu">
@@ -57,7 +57,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
         </div>
 
 
-        <div class="main-content">
+        <div class="main-content style="min-height: 100vh; width: 100%;"">
 
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-6">

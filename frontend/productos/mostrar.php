@@ -67,7 +67,7 @@ include_once "../templates/header.php";
                     </div>
                     <br>
                     <!-- Botón para registrar un nuevo producto -->
-                    <a href="../productos/nuevo_p.php" class="btn btn-danger text-white mx-3">Nuevo producto</a>
+                    <a href="../productos/nuevo.php" class="btn btn-danger text-white mx-3">Nuevo producto</a>
                     <br>
 
                     <div class="card-content table-responsive">
@@ -91,11 +91,10 @@ include_once "../templates/header.php";
                                     <tr>
                                         <th>Código</th>
                                         <th>Nombre</th>
-                                        <th>Fecha</th>
                                         <th>Precio</th>
                                         <th>Stock</th>
-                                        <th>Estado</th>
-                                        <th>Registrado</th>
+                                        <th>Estado</th>                       
+                                        <th>Fecha de registro</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -104,19 +103,15 @@ include_once "../templates/header.php";
                                         <tr>
                                             <td><?php echo $producto->codba; ?></td>
                                             <td><?php echo $producto->nomprd; ?></td>
-                                            <td><?php echo $producto->fcdate; ?></td>
+                                    
                                             <td>$<?php echo number_format($producto->precio, 2); ?></td>
                                             <td><?php echo $producto->stock; ?></td>
                                             <td><?php echo $producto->esta; ?></td>
                                             <td><?php echo $producto->fere; ?></td>
                                             <td>
                                                 <!-- Enlaces de acción (visualizar, editar, eliminar) -->
-                                                <a class="btn btn-primary text-white"
-                                                   href="../productos/informacion.php?id=<?php echo $producto->idprod; ?>">
-                                                   <i class='material-icons' title='Visualizar'>visibility</i>
-                                                </a>
                                                 <a class="btn btn-warning text-white"
-                                                   href="../productos/actualizar.php?id=<?php echo $producto->idprod; ?>">
+                                                   href="../productos/actualizar_p.php?id=<?php echo $producto->idprod; ?>">
                                                    <i class='material-icons' title='Editar'>edit</i>
                                                 </a>
                                                 <a class="btn btn-danger text-white"

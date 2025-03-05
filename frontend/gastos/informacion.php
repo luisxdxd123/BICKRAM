@@ -4,10 +4,11 @@ session_start();
 
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
     header('location: ../erro404.php');
+    exit;
 }
+if (isset($_SESSION['id'])) {
+    include_once "../templates/header.php";
 ?>
-<?php if (isset($_SESSION['id'])) { ?>
-
     <!doctype html>
     <html lang="es">
 
@@ -15,56 +16,42 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
         <title>BIKRAM YOGA</title>
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="../../backend/css/bootstrap.min.css">
-        <!----css3---->
+        <!-- Custom CSS -->
         <link rel="stylesheet" href="../../backend/css/custom.css">
-        
-
-
-        <!-- SLIDER REVOLUTION 4.x CSS SETTINGS -->
-
+        <link rel="stylesheet" href="../../backend/css/loader.css">
+        <!-- Google Fonts & Icons -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-        <!--google material icon-->
-        <link href="https://fonts.googleapis.com/css2?family=Material+Icons"
-            rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
         <link rel="icon" type="image/jpg" href="../../backend/img/yoga2.jpg" />
     </head>
 
     <body>
-
         <div class="wrapper">
-
             <div class="body-overlay"></div>
-            <!-- Sidebar  -->
+            <!-- Incluye el sidebar si lo tienes en un archivo aparte -->
             <?php
             require_once '../templates/header.php';
             ?>
 
-
-            <!-- Page Content  -->
+            <!-- Page Content -->
             <div id="content">
-                <div class='pre-loader'>
-                </div>
                 <div class="top-navbar">
                     <nav class="navbar navbar-expand-lg">
                         <div class="container-fluid">
-
                             <button type="button" id="sidebarCollapse" class="d-xl-block d-lg-block d-md-mone d-none">
                                 <span class="material-icons">arrow_back_ios</span>
                             </button>
-
-                            <a class="navbar-brand" href="#"> Planes </a>
-
+                            <a class="navbar-brand" href="#"> Gastos </a>
                             <button class="d-inline-block d-lg-none ml-auto more-button" type="button" data-toggle="collapse"
-                                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="material-icons">more_vert</span>
                             </button>
-
                             <div class="collapse navbar-collapse d-lg-block d-xl-block d-sm-none d-md-none d-none" id="navbarSupportedContent">
                                 <ul class="nav navbar-nav ml-auto">
                                     <li class="nav-item">
@@ -74,52 +61,46 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
                                     </li>
                                     <li class="dropdown nav-item active">
                                         <a href="#" class="nav-link" data-toggle="dropdown">
-
                                             <img src="../../backend/img/reere.png">
-
                                         </a>
                                         <ul class="dropdown-menu">
-                                            <li>
-                                                <a href="../cuenta/perfil.php">Mi perfil</a>
-                                            </li>
-                                            <li>
-                                                <a href="../cuenta/salir.php">Salir</a>
-                                            </li>
-
+                                            <li><a href="../cuenta/perfil.php">Mi perfil</a></li>
+                                            <li><a href="../cuenta/salir.php">Salir</a></li>
                                         </ul>
                                     </li>
-
                                 </ul>
                             </div>
                         </div>
                     </nav>
                 </div>
 
+                <!-- Main Content -->
                 <div class="main-content" style="min-height: 100vh; width: 100%;">
-                    <div class="row ">
+                    <div class="row">
                         <div class="col-lg-12 col-md-12">
+                            <!-- Breadcrumb -->
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="../administrador/escritorio.php">Panel administrativo</a></li>
-                                    <li class="breadcrumb-item"><a href="../plan/mostrar.php">Planes </a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Informacion</li>
+                                    <li class="breadcrumb-item"><a href="mostrar.php">Gastos</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Información</li>
                                 </ol>
                             </nav>
+                            <!-- Card de Información -->
                             <div class="card" style="min-height: 485px">
                                 <div class="card-header card-header-text">
-                                    <h4 class="card-title">Planes recientes</h4>
-                                    <p class="category">Informacion del plan reciente añadidos el dia de hoy</p>
+                                    <h4 class="card-title">Información del gasto</h4>
+                                    <p class="category">Detalle del gasto seleccionado</p>
                                 </div>
-
                                 <div class="card-content table-responsive">
-
                                     <?php
-                                    require '../../backend/bd/ctconex.php';
+                                    require_once '../../backend/bd/ctconex.php';
                                     $id = $_GET['id'];
-                                    $sentencia = $connect->prepare("SELECT * FROM plan WHERE idplan= '$id';");
+                                    $sentencia = $connect->prepare("SELECT * FROM gastos WHERE idga = :id");
+                                    $sentencia->bindParam(':id', $id, PDO::PARAM_INT);
                                     $sentencia->execute();
 
-                                    $data =  array();
+                                    $data = [];
                                     if ($sentencia) {
                                         while ($r = $sentencia->fetchObject()) {
                                             $data[] = $r;
@@ -128,54 +109,34 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
                                     ?>
                                     <?php if (count($data) > 0): ?>
                                         <?php foreach ($data as $f): ?>
-                                            <form enctype="multipart/form-data" method="POST" autocomplete="off">
-                                                <br>
+                                            <form method="POST" autocomplete="off">
                                                 <div class="row">
-                                                    <div class="col-md-12 col-lg-12">
+                                                    <!-- Detalle -->
+                                                    <div class="col-md-4 col-lg-4">
                                                         <div class="form-group">
-                                                            <center><img src="../../backend/img/subidas/<?php echo  $f->foto; ?>" height="150"></center>
-
+                                                            <label>Detalle <span class="text-danger">*</span></label>
+                                                            <input type="text" readonly value="<?php echo $f->detail; ?>" class="form-control" name="detail">
+                                                        </div>
+                                                    </div>
+                                                    <!-- Monto -->
+                                                    <div class="col-md-4 col-lg-4">
+                                                        <div class="form-group">
+                                                            <label>Monto <span class="text-danger">*</span></label>
+                                                            <input type="text" readonly value="<?php echo $f->total; ?>" class="form-control" name="total">
+                                                        </div>
+                                                    </div>
+                                                    <!-- Fecha -->
+                                                    <div class="col-md-4 col-lg-4">
+                                                        <div class="form-group">
+                                                            <label>Fecha <span class="text-danger">*</span></label>
+                                                            <input type="date" readonly value="<?php echo $f->fec; ?>" class="form-control" name="fec">
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <br>
-                                                <div class="row">
-                                                    <div class="col-md-4 col-lg-4">
-                                                        <div class="form-group">
-                                                            <label for="email">Nombre del plan<span class="text-danger">*</span></label>
-                                                            <input type="text" readonly value="<?php echo  $f->nompla; ?>" class="form-control" name="txtnampla" placeholder="Nombre del plan">
-                                                            <input type="hidden" value="<?php echo  $f->idplan; ?>" name="txtidc">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-4 col-lg-4">
-                                                        <div class="form-group">
-                                                            <label for="email">Precio del plan<span class="text-danger">*</span></label>
-                                                            <input type="text" value="<?php echo  $f->prec; ?>" onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" class="form-control" name="txtprepl" readonly placeholder="Precio del plan">
-
-                                                        </div>
-                                                    </div>
-
-
-                                                    <div class="col-md-4 col-lg-4">
-                                                        <div class="form-group">
-                                                            <label for="email">Estado del plan<span class="text-danger">*</span></label>
-                                                            <select class="form-control" readonly name="txtesta">
-                                                                <option value="<?php echo  $f->estp; ?>"><?php echo  $f->estp; ?></option>
-
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-
-
                                                 <hr>
                                                 <div class="form-group">
                                                     <div class="col-sm-12">
-
-                                                        <a class="btn btn-danger text-white" href="../plan/mostrar.php">Cancelar</a>
+                                                        <a class="btn btn-danger text-white" href="mostrar.php">Cancelar</a>
                                                     </div>
                                                 </div>
                                             </form>
@@ -184,57 +145,39 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 1) {
                                         <div class="alert alert-warning" role="alert">
                                             No se encontró ningún dato!
                                         </div>
-
                                     <?php endif; ?>
-                                </div>
+                                </div><!-- Fin .card-content -->
+                            </div><!-- Fin .card -->
+                        </div><!-- Fin .col -->
+                    </div><!-- Fin .row -->
+                </div><!-- Fin .main-content -->
+            </div><!-- Fin #content -->
 
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-
-
-        <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="../../backend/js/jquery-3.3.1.slim.min.js"></script>
-        <script src="../../backend/js/popper.min.js"></script>
-        <script src="../../backend/js/bootstrap.min.js"></script>
-        <script src="../../backend/js/jquery-3.3.1.min.js"></script>
-        <script src="../../backend/js/sweetalert.js"></script>
-        <?php
-        include_once '../../backend/php/st_updpln.php'
-        ?>
-
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $('#sidebarCollapse').on('click', function() {
-                    $('#sidebar').toggleClass('active');
-                    $('#content').toggleClass('active');
+            <!-- Scripts -->
+            <script src="../../backend/js/jquery-3.3.1.slim.min.js"></script>
+            <script src="../../backend/js/popper.min.js"></script>
+            <script src="../../backend/js/bootstrap.min.js"></script>
+            <script src="../../backend/js/jquery-3.3.1.min.js"></script>
+            <script src="../../backend/js/sweetalert.js"></script>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $('#sidebarCollapse').on('click', function() {
+                        $('#sidebar').toggleClass('active');
+                        $('#content').toggleClass('active');
+                    });
+                    $('.more-button, .body-overlay').on('click', function() {
+                        $('#sidebar, .body-overlay').toggleClass('show-nav');
+                    });
                 });
-
-                $('.more-button,.body-overlay').on('click', function() {
-                    $('#sidebar,.body-overlay').toggleClass('show-nav');
-                });
-
-            });
-        </script>
-        <script src="../../backend/js/loader.js"></script>
-
-
+            </script>
+            <script src="../../backend/js/loader.js"></script>
+        </div><!-- Fin wrapper -->
     </body>
 
     </html>
-
-
-
-
-
-<?php } else {
+<?php
+} else {
     header('Location: ../erro404.php');
-} ?>
-<?php ob_end_flush(); ?>
+}
+ob_end_flush();
+?>
