@@ -1,0 +1,195 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+/* Contenedor principal del login */
+.login-wrapper {
+    display: flex;
+    width: 768px;
+    max-width: 100%;
+    min-height: 480px;
+    background-color: #fff;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+}
+
+/* Columnas: imagen y formulario */
+.box-col {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Columna de imagen */
+.box-image {
+    background-color: #f7f7f7;
+}
+
+.box-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+/* Contenedor del formulario */
+.box-form {
+    width: 100%;
+}
+
+.inner {
+    width: 100%;
+    padding: 0 40px;
+}
+
+/* Encabezado del formulario */
+.form-head .title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Formulario de login */
+.login-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.label-text {
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Estilo de los inputs */
+.form-control {
+    width: 100%;
+    padding: 12px 18px;
+    font-size: 16px;
+    font-family: inherit;
+    box-shadow: 0 0 0 1px #8a8c9b;
+    border: none;
+    border-radius: 25px;
+    background-color: #f7f5ff;
+    transition: all .3s;
+}
+.form-control::placeholder{
+    color: #a697ce;
+    font-size: 14px;
+
+}
+
+.form-control :focus{
+    outline: none;
+    box-shadow: 0 0 10px 1px #968cee75;
+    border: none;
+    transition: all .3s;
+
+}
+/* Área de acciones */
+.actions {
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Botón de acceso */
+.btn-submit {
+    display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 30px;
+  border: 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10rem;
+  transition: all 0.02s;
+  font-weight: bold;
+  cursor: pointer;
+  color: rgb(37, 37, 37);
+  z-index: 0;
+  box-shadow: 0 0px 7px -5px rgba(0, 0, 0, 0.5);
+}
+
+.btn-submit:hover {
+    background: rgb(193, 228, 248);
+    color: rgb(33, 0, 85);
+}
+
+.btn-submit:active{
+    transform: scale(0.97);
+}
+
+
+.hoverEffect {
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+  }
+  
+  .hoverEffect div {
+    background: rgb(222, 0, 75);
+    background: linear-gradient(
+      90deg,
+      rgba(222, 0, 75, 1) 0%,
+      rgba(191, 70, 255, 1) 49%,
+      rgba(0, 212, 255, 1) 100%
+    );
+    border-radius: 40rem;
+    width: 10rem;
+    height: 10rem;
+    transition: 0.4s;
+    filter: blur(20px);
+    animation: effect infinite 3s linear;
+    opacity: 0.5;
+  }
+  
+  .button:hover .hoverEffect div {
+    width: 8rem;
+    height: 8rem;
+  }
+  
+  @keyframes effect {
+    0% {
+      transform: rotate(0deg);
+    }
+  
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  .logo-pequeno {
+    display: block;
+    margin: -60px auto 20px; /* Mueve la imagen más arriba y da espacio abajo */
+    width: 8rem; /* Tamaño más grande */
+    height: auto;
+  }
+  
+  
